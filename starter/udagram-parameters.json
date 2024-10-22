@@ -1,6 +1,18 @@
 [
 	{
-		"ParameterKey": "Add you parameters here",
-		"ParameterValue": "Add you parameters here"
+		"ParameterKey": "ProjectName",
+		"ParameterValue": "project2-infra-as-code"
+	},
+	{
+		"ParameterKey": "AsgDesiredCapacity",
+		"ParameterValue": "4"
+	},
+	{
+		"ParameterKey": "BastionKeyName",
+		"ParameterValue": "BastionKeyPair"
+	},
+	{
+		"ParameterKey": "BastionAccessIP",
+		"ParameterValue": "0.0.0.0/0"
 	}
 ]
