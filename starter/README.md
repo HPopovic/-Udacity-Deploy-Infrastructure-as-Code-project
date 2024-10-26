@@ -63,7 +63,7 @@ ssh -A -i .{BastionKeyPair}.pem ubuntu@{ip-address}
 5. SSH into server using its private IP - can choose any in the same Availability Zone, i.e.:
 ssh ubuntu@{ip-address}
 
-Note: By default, Bastion host is accessible to the public. A user's IP can be specified in udagram-parameters.json
+*Note: By default, Bastion host is accessible to the public. A user's IP can be specified in udagram-parameters.json*
 
 ## Other considerations
 ### Load Balancer URL for access:  
