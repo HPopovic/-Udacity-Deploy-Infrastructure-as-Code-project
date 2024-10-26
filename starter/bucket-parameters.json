@@ -1,0 +1,10 @@
+[
+	{
+		"ParameterKey": "ProjectName",
+		"ParameterValue": "project2-infra-as-code"
+	},
+    {
+		"ParameterKey": "S3BucketName",
+		"ParameterValue": "project2-infra-as-code-udagram-4829"
+	}
+]

@@ -8,11 +8,19 @@
 		"ParameterValue": "4"
 	},
 	{
+		"ParameterKey": "AsgImageId",
+		"ParameterValue": "ami-0866a3c8686eaeeba"
+	},
+	{
 		"ParameterKey": "BastionKeyName",
-		"ParameterValue": "BastionKeyPair"
+		"ParameterValue": "BastionKeyPair-2"
 	},
 	{
 		"ParameterKey": "BastionAccessIP",
 		"ParameterValue": "0.0.0.0/0"
+	},
+	{
+		"ParameterKey": "BastionImageId",
+		"ParameterValue": "ami-0866a3c8686eaeeba"
 	}
 ]

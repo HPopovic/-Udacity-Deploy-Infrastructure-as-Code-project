@@ -26,7 +26,6 @@ Parameters:
       Type: String
 
 Resources:
-
   VPC:
     Type: AWS::EC2::VPC
     Properties:
@@ -201,13 +200,11 @@ Resources:
 
 
 Outputs:
-
   VPC: 
     Description: A reference to the created VPC
     Value: !Ref VPC
     Export:
       Name: !Sub ${ProjectName}-vpc-id
-
 
   PublicSubnets:
     Description: A list of the public subnets

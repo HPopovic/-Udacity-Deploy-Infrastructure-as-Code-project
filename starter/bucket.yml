@@ -1,0 +1,50 @@
+Description: CD12352 - Infrastructure as Code Project - Heidi Popovic - S3 Bucket
+
+Parameters:
+  ProjectName:
+    Type: String
+    Description: Tag name for resources
+    Default: project2-infra-as-code
+    
+  S3BucketName:
+    Type: String
+    Description: Name of the S3 bucket
+
+Resources:
+  # S3 Bucket with public read access
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref S3BucketName
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        IgnorePublicAcls: false
+        BlockPublicPolicy: false
+        RestrictPublicBuckets: false
+      Tags:
+        - Key: Name
+          Value: !Sub ${ProjectName} S3 Bucket
+  
+  S3BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    Properties:
+      Bucket:
+        Ref: 'S3Bucket'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Sub arn:aws:s3:::${S3BucketName}/*
+
+Outputs:
+  BucketARN:
+    Description: ARN of the S3 bucket
+    Value: !GetAtt S3Bucket.Arn
+    Export:
+      Name: !Sub ${ProjectName}-s3-bucket-arn

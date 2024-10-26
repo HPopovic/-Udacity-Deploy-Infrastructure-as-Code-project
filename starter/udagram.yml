@@ -5,21 +5,31 @@ Parameters:
     Type: String
     Description: Tag name for udagram resources
     Default: project2-infra-as-code
+
   AsgDesiredCapacity:
     Type: String
-    Description: Desired capacity for the fleet of instances
+    Description: Desired number of EC2 instances to be created in the Autoscaling Group
     Default: 1
+
+  AsgImageId:
+    Type: String
+    Description: Image ID to use in creation of the EC2 instances in the Autoscaling Group
+
   BastionAccessIP:
     Type: String
     Description: IP to use to allow bastion access
     Default: 0.0.0.0/0
+
   BastionKeyName:
     Type: String
     Description: Name of the key pair created to connect via bastion to instances
     Default: BastionKeyPair
 
-Resources:
+  BastionImageId:
+    Type: String
+    Description: Image ID to use in creation of the bastion host
 
+Resources:
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -44,30 +54,26 @@ Resources:
         UserData:
           Fn::Base64: |
             #!/bin/bash
+
             apt-get update -y
+
             sudo apt-get install nginx -y
+
             service nginx start
             
             WEB_DIR="/var/www/html"
-
-            cat <<EOF > index.html
-            <!DOCTYPE html>
-            <html lang="en">
-              <head>
-                <title>It works! Udagram, Udacity</title> 
-              </head>
-              <body>
-                <h1>It works! Udagram, Udacity</h1>
-              </body>
-            </html>
-            EOF
-
+           
             sudo rm -r $WEB_DIR/index.*
+
+            sudo snap install aws-cli --classic
+
+            aws s3 cp s3://project2-infra-as-code-udagram-4829/index.html index.html
+
             sudo cp index.html $WEB_DIR
 
             sudo systemctl reload nginx
 
-        ImageId: ami-0866a3c8686eaeeba
+        ImageId: !Ref AsgImageId
         SecurityGroupIds:
           - !Ref SecurityGroup
         InstanceType: t2.micro
@@ -155,39 +161,7 @@ Resources:
         Fn::ImportValue:
           Fn::Sub: "${ProjectName}-vpc-id"
 
-  # S3 Bucket with public read, and IAM Role and Instance Profile to allow instances read/write access
-  S3Bucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Sub "${ProjectName}-udagram-4829"
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: false
-        IgnorePublicAcls: false
-        BlockPublicPolicy: false
-        RestrictPublicBuckets: false
-  
-  S3BucketPolicy:
-    Type: 'AWS::S3::BucketPolicy'
-    Properties:
-      Bucket:
-        Ref: 'S3Bucket'
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal: '*'
-            Action: 's3:GetObject'
-            Resource:
-              Fn::Join:
-                - ''
-                - - 'arn:aws:s3:::'
-                  - Ref: 'S3Bucket'
-                  - '/*'
-  
+  # IAM Role and Instance Profile to allow instances read/write access to the S3 bucket 
   IAMRole:
     Type: AWS::IAM::Role
     Properties:
@@ -211,8 +185,8 @@ Resources:
               - 's3:PutObject'
               - 's3:GetObject'
               Resource:
-                - !GetAtt S3Bucket.Arn
-  
+                !Sub "arn:aws:s3:::${ProjectName}-udagram-4829/*"
+
   InstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
@@ -226,7 +200,7 @@ Resources:
     Properties:
       InstanceType: t2.micro
       KeyName: !Ref BastionKeyName
-      ImageId: ami-0866a3c8686eaeeba
+      ImageId: !Ref BastionImageId
       SecurityGroupIds:
         - !Ref BastionSecurityGroup
       SubnetId:
@@ -248,11 +222,9 @@ Resources:
         ToPort: 22
         CidrIp: !Ref BastionAccessIP
 
-
 Outputs:
   LoadBalancerURL: 
     Description: Public URL of the Load Balancer
-    #Value: !GetAtt LoadBalancer.DNSName
     Value: !Sub http://${LoadBalancer.DNSName}
     Export:
       Name: !Sub ${ProjectName}-lb-url
@@ -261,7 +233,6 @@ Outputs:
     Description: Public IP address of the Bastion Host for SSH
     Value: !GetAtt Bastion.PublicIp
     Export:
-      Name: !Sub {ProjectName}-bastion-public-id
-
+      Name: !Sub ${ProjectName}-bastion-public-ip
 
   
