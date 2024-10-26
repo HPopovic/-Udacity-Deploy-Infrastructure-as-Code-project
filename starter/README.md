@@ -10,37 +10,45 @@ First, create the S3 bucket stack: use the run.sh script with "deploy", e.g.:
 ## Upload files to S3 bucket
 To upload a file to the S3 bucket, use the bucket.sh script with "upload", e.g.:
 
-./bucket.sh upload project2-infra-as-code index.html
+####
+        ./bucket.sh upload project2-infra-as-code index.html
 
 *Note: the project name must match the project name in the udagram-parameters.json file*
 
 ## Spin up instructions
 To spin up the network and application resources, use the run.sh script with "deploy". First spin up the network resources using network.yml and its parameters file, e.g.:
 
-./run.sh deploy us-east-1 project-network-stack network.yml network-parameters.json
+####
+        ./run.sh deploy us-east-1 project-network-stack network.yml network-parameters.json
 
 Once the network stack is running, create the application stack, e.g.:
 
-./run.sh deploy us-east-1 project-server-stack udagram.yml udagram-parameters.json
+####
+        ./run.sh deploy us-east-1 project-server-stack udagram.yml udagram-parameters.json
 
 ## To preview changes without deploying
 To preview changes in a changeset without deploying, use the run.sh script with "preview", e.g.:
 
-./run.sh preview us-east-1 project-network-stack network.yml network-parameters.json
+####
+        ./run.sh preview us-east-1 project-network-stack network.yml network-parameters.json
 
 
 ## Tear down instructions
 First, empty the bucket using the bucket.sh script with "empty", e.g.:
 
-./bucket.sh empty project2-infra-as-code
+####
+        ./bucket.sh empty project2-infra-as-code
 
 Use the run.sh script with "delete" to tear down the resource stacks, e.g.:
 
-./run.sh delete us-east-1 project-server-stack
+####
+        ./run.sh delete us-east-1 project-server-stack
 
-./run.sh delete us-east-1 project-network-stack
+####
+        ./run.sh delete us-east-1 project-network-stack
 
-./run.sh delete us-east-1 bucket-stack
+####
+        ./run.sh delete us-east-1 bucket-stack
 
 ## Bastion Host
 To use the bastion host:
