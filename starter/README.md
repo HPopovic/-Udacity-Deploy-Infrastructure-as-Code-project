@@ -57,7 +57,11 @@ ssh ubuntu@{ip-address}
 Note: By default, Bastion host is accessible to the public. A user's IP can be specified in udagram-parameters.json
 
 ## Other considerations
-[Load Balancer URL](loadbalancer.com)   
+### Load Balancer URL for access:  
+[Udagram - It Works! Page](loadbalancer.com)   
+### Infrastructure Diagram:  
 ![Infrastructure Diagram](/Project_Infra_Diagram.drawio.png)  
-![Screenshot evidence of Bastion use](/Bastion_SSH.png)  
+### Screenshot evidence of Bastion use:  
+![Screenshot evidence of Bastion use](/Bastion_SSH.png)
+### Screenshot evidence of Udagram page from LB URL:   
 ![Screenshot evidence of Udagram page](/LB_It_Works.png)
