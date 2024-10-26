@@ -4,7 +4,8 @@
 ## Create the S3 bucket
 First, create the S3 bucket stack: use the run.sh script with "deploy", e.g.:
 
-./run.sh deploy us-east-1 bucket-stack bucket.yml bucket-parameters.json
+####
+        ./run.sh deploy us-east-1 bucket-stack bucket.yml bucket-parameters.json
 
 ## Upload files to S3 bucket
 To upload a file to the S3 bucket, use the bucket.sh script with "upload", e.g.:
