@@ -67,7 +67,7 @@ ssh ubuntu@{ip-address}
 
 ## Other considerations
 ### Load Balancer URL for access:  
-[Udagram - It Works! Page](loadbalancer.com)   
+[Udagram - It Works! Page](http://projec-LoadB-oiewDtObDm0i-495950330.us-east-1.elb.amazonaws.com)   
 ### Infrastructure Diagram:  
 ![Infrastructure Diagram](/Project_Infra_Diagram.drawio.png)  
 ### Screenshot evidence of Bastion use:  
